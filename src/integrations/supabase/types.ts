@@ -136,7 +136,9 @@ export type Database = {
           description: string | null
           id: string
           image_url: string | null
+          is_featured: boolean | null
           price: number
+          sale_price: number | null
           seller_id: string
           title: string
           updated_at: string | null
@@ -148,7 +150,9 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          is_featured?: boolean | null
           price: number
+          sale_price?: number | null
           seller_id: string
           title: string
           updated_at?: string | null
@@ -160,7 +164,9 @@ export type Database = {
           description?: string | null
           id?: string
           image_url?: string | null
+          is_featured?: boolean | null
           price?: number
+          sale_price?: number | null
           seller_id?: string
           title?: string
           updated_at?: string | null
