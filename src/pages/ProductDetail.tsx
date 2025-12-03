@@ -11,10 +11,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const { user } = useAuth();
+  const { addToRecentlyViewed } = useRecentlyViewed();
   const [product, setProduct] = useState<any>(null);
   const [seller, setSeller] = useState<any>(null);
   const [comments, setComments] = useState<any[]>([]);
@@ -35,6 +37,7 @@ export default function ProductDetail() {
     if (id) {
       fetchProductDetails();
       fetchComments();
+      addToRecentlyViewed(id);
       if (user) {
         checkFavoriteStatus();
         checkLikeStatus();
