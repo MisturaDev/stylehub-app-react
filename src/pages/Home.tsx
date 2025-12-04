@@ -6,6 +6,8 @@ import { QuickViewModal } from "@/components/QuickViewModal";
 import { PromoBanner } from "@/components/PromoBanner";
 import { TrendingProducts } from "@/components/TrendingProducts";
 import { RecentlyViewed } from "@/components/RecentlyViewed";
+import { FeaturedBrands } from "@/components/FeaturedBrands";
+import { TopSellers } from "@/components/TopSellers";
 import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -250,6 +252,12 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* Featured Brands */}
+      <FeaturedBrands />
+
+      {/* Top Sellers */}
+      <TopSellers />
 
       {/* Trending Products */}
       <TrendingProducts onProductView={addToRecentlyViewed} />
