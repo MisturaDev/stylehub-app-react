@@ -1,16 +1,22 @@
 
-# StyleHub - Fashion Dashboard & E-commerce
+# StyleHub - Fashion Marketplace & E-commerce
 
-A modern, responsive e-commerce dashboard built with React, Vite, and Supabase. Features a complete shopping experience including product browsing, wishlist management, shopping cart, and seller dashboard.
+A modern, responsive e-commerce marketplace built with React, Vite and Supabase. Features a complete shopping experience including product browsing, wishlist management, shopping cart and seller dashboard.
 
 ## 🚀 Features
 
 - **Authentication**: Secure Login and Signup with data validation and password visibility toggle.
-- **Product Catalog**: Browse products with categories, search, and details.
+
+- **Product Catalog**: Browse products with categories, search and details.
+
 - **Shopping Cart**: Fully functional cart with quantity management and local storage persistence.
-- **Wishlist**: Save your favorite items (requires login).
-- **Seller Dashboard**: Manage your own products (Create, Read, Update, Delete).
+
+- **Wishlist**: Save your favorite items (requires login)
+
+- **Seller Dashboard**: Manage your own products (Create, Read, Update, Delete)
+
 - **Responsive Design**: Beautiful UI built with Tailwind CSS and Shadcn UI.
+
 
 ## 🛠 Tech Stack
 
