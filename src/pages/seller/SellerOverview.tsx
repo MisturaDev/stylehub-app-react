@@ -11,12 +11,12 @@ import {
 } from "recharts";
 
 const data = [
-    { name: "Jan", sales: 4000 },
-    { name: "Feb", sales: 3000 },
-    { name: "Mar", sales: 2000 },
-    { name: "Apr", sales: 2780 },
-    { name: "May", sales: 1890 },
-    { name: "Jun", sales: 2390 },
+    { name: "Jul", sales: 4000 },
+    { name: "Aug", sales: 3000 },
+    { name: "Sep", sales: 2000 },
+    { name: "Oct", sales: 2780 },
+    { name: "Nov", sales: 1890 },
+    { name: "Dec", sales: 2390 },
 ];
 
 export default function SellerOverview() {
