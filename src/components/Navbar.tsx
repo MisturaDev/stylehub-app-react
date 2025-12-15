@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Heart, ShoppingBag, User, Search, Menu, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +13,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 export function Navbar() {
   const { user, signOut } = useAuth();
+  const { itemCount } = useCart();
 
   const NavLinks = () => (
     <>
@@ -52,6 +54,17 @@ export function Navbar() {
             <Button variant="ghost" size="icon" asChild>
               <Link to="/wishlist">
                 <Heart className="h-5 w-5" />
+              </Link>
+            </Button>
+
+            <Button variant="ghost" size="icon" asChild className="relative">
+              <Link to="/cart">
+                <ShoppingBag className="h-5 w-5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-[10px] font-medium text-accent-foreground flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
               </Link>
             </Button>
 

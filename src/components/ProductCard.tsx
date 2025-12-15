@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
-import { Heart, ThumbsUp } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Heart, ThumbsUp, ShoppingBag } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
 interface ProductCardProps {
@@ -21,27 +22,29 @@ interface ProductCardProps {
   seller_id?: string;
 }
 
-export function ProductCard({ 
-  id, 
-  title, 
-  price, 
+export function ProductCard({
+  id,
+  title,
+  price,
   sale_price,
-  image_url, 
-  category, 
+  image_url,
+  category,
   brand,
   is_featured,
   created_at,
   seller_id
 }: ProductCardProps) {
   const { user } = useAuth();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [sellerName, setSellerName] = useState<string>("");
-  
+
   // Check if product is new (created within last 30 days)
-  const isNew = created_at ? 
-    (Date.now() - new Date(created_at).getTime()) < 30 * 24 * 60 * 60 * 1000 : 
+  const isNew = created_at ?
+    (Date.now() - new Date(created_at).getTime()) < 30 * 24 * 60 * 60 * 1000 :
     false;
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export function ProductCard({
       fetchSellerInfo();
     }
   }, [user, id, seller_id]);
-  
+
   const fetchSellerInfo = async () => {
     if (!seller_id) return;
     const { data } = await supabase
@@ -62,7 +65,7 @@ export function ProductCard({
       .select("full_name")
       .eq("id", seller_id)
       .single();
-    
+
     if (data?.full_name) {
       setSellerName(data.full_name);
     }
@@ -75,7 +78,7 @@ export function ProductCard({
       .eq("user_id", user?.id)
       .eq("product_id", id)
       .single();
-    
+
     setIsFavorite(!!data);
   };
 
@@ -86,7 +89,7 @@ export function ProductCard({
       .eq("user_id", user?.id)
       .eq("product_id", id)
       .single();
-    
+
     setIsLiked(!!data);
   };
 
@@ -95,15 +98,16 @@ export function ProductCard({
       .from("likes")
       .select("*", { count: "exact", head: true })
       .eq("product_id", id);
-    
+
     setLikeCount(count || 0);
   };
 
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     if (!user) {
       toast.error("Please sign in to add favorites");
+      navigate("/auth");
       return;
     }
 
@@ -126,7 +130,7 @@ export function ProductCard({
 
   const toggleLike = async (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     if (!user) {
       toast.error("Please sign in to like products");
       return;
@@ -161,14 +165,14 @@ export function ProductCard({
             alt={title}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
           />
-          
+
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2">
             {isNew && <Badge variant="new">New</Badge>}
             {hasDiscount && <Badge variant="sale">Sale</Badge>}
             {is_featured && <Badge variant="featured">Featured</Badge>}
           </div>
-          
+
           {/* Favorite Button */}
           <div className="absolute top-3 right-3 flex gap-2">
             <Button
@@ -178,6 +182,17 @@ export function ProductCard({
               onClick={toggleFavorite}
             >
               <Heart className={`h-4 w-4 ${isFavorite ? "fill-accent text-accent" : ""}`} />
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              className="rounded-full bg-background/80 backdrop-blur-sm hover:bg-background"
+              onClick={(e) => {
+                e.preventDefault();
+                addToCart({ id, title, price, sale_price, image_url });
+              }}
+            >
+              <ShoppingBag className="h-4 w-4" />
             </Button>
           </div>
         </div>

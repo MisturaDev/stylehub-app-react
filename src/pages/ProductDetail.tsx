@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, ThumbsUp, ArrowLeft, User } from "lucide-react";
+import { Heart, ThumbsUp, ArrowLeft, User, ShoppingBag } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -16,6 +17,8 @@ import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 export default function ProductDetail() {
   const { id } = useParams();
   const { user } = useAuth();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
   const { addToRecentlyViewed } = useRecentlyViewed();
   const [product, setProduct] = useState<any>(null);
   const [seller, setSeller] = useState<any>(null);
@@ -25,10 +28,10 @@ export default function ProductDetail() {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  
+
   // Check if product is new (created within last 30 days)
-  const isNew = product?.created_at ? 
-    (Date.now() - new Date(product.created_at).getTime()) < 30 * 24 * 60 * 60 * 1000 : 
+  const isNew = product?.created_at ?
+    (Date.now() - new Date(product.created_at).getTime()) < 30 * 24 * 60 * 60 * 1000 :
     false;
   const hasDiscount = product?.sale_price && product.sale_price < product.price;
   const displayPrice = product?.sale_price || product?.price;
@@ -54,23 +57,23 @@ export default function ProductDetail() {
 
     if (productData) {
       setProduct(productData);
-      
+
       const { data: sellerData } = await supabase
         .from("profiles")
         .select("*")
         .eq("id", productData.seller_id)
         .single();
-      
+
       setSeller(sellerData);
 
       const { count } = await supabase
         .from("likes")
         .select("*", { count: "exact", head: true })
         .eq("product_id", id);
-      
+
       setLikeCount(count || 0);
     }
-    
+
     setLoading(false);
   };
 
@@ -96,7 +99,7 @@ export default function ProductDetail() {
       .eq("user_id", user?.id)
       .eq("product_id", id)
       .single();
-    
+
     setIsFavorite(!!data);
   };
 
@@ -107,13 +110,14 @@ export default function ProductDetail() {
       .eq("user_id", user?.id)
       .eq("product_id", id)
       .single();
-    
+
     setIsLiked(!!data);
   };
 
   const toggleFavorite = async () => {
     if (!user) {
       toast.error("Please sign in to add favorites");
+      navigate("/auth");
       return;
     }
 
@@ -206,7 +210,7 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-8">
         <Button variant="ghost" asChild className="mb-6">
           <Link to="/">
@@ -248,8 +252,16 @@ export default function ProductDetail() {
                 </p>
               )}
             </div>
-            
+
             <div className="flex gap-4">
+              <Button
+                size="lg"
+                className="flex-1"
+                onClick={() => addToCart(product)}
+              >
+                <ShoppingBag className="mr-2 h-5 w-5" />
+                Add to Cart
+              </Button>
               <Button
                 variant="outline"
                 size="lg"
@@ -277,7 +289,7 @@ export default function ProductDetail() {
             </div>
 
             <Separator />
-            
+
             <div className="space-y-4">
               <h3 className="font-serif text-xl">Details</h3>
               <dl className="space-y-3">
@@ -293,7 +305,7 @@ export default function ProductDetail() {
                 )}
               </dl>
             </div>
-            
+
             {seller && (
               <>
                 <Separator />
@@ -319,7 +331,7 @@ export default function ProductDetail() {
         {/* Comments Section */}
         <div className="mt-16 max-w-3xl">
           <h2 className="text-2xl font-serif font-bold mb-6">Comments</h2>
-          
+
           {user && (
             <form onSubmit={handleCommentSubmit} className="mb-8">
               <Textarea

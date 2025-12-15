@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Eye, EyeOff } from "lucide-react";
 
 const authSchema = z.object({
   email: z.string().email("Invalid email address").max(255),
@@ -18,6 +19,7 @@ export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
   const { signUp, signIn, user } = useAuth();
@@ -34,10 +36,10 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      const validationData = isSignUp 
+      const validationData = isSignUp
         ? { email, password, fullName }
         : { email, password };
-      
+
       authSchema.parse(validationData);
 
       const { error } = isSignUp
@@ -53,7 +55,7 @@ export default function Auth() {
           toast.error(error.message);
         }
       } else {
-        toast.success(isSignUp ? "Account created successfully!" : "Welcome back!");
+        toast.success(isSignUp ? "Account created! Welcome email sent." : "Welcome back!");
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -107,16 +109,30 @@ export default function Auth() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                minLength={6}
-                maxLength={100}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  maxLength={100}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}

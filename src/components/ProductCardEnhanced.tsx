@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Heart, ThumbsUp, Eye } from "lucide-react";
+import { Heart, ThumbsUp, Eye, ShoppingBag } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useCart } from "@/contexts/CartContext";
 import { toast } from "sonner";
 
 interface ProductCardProps {
@@ -39,6 +41,8 @@ export function ProductCardEnhanced({
   onView,
 }: ProductCardProps) {
   const { user } = useAuth();
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -109,6 +113,7 @@ export function ProductCardEnhanced({
 
     if (!user) {
       toast.error("Please sign in to add favorites");
+      navigate("/auth");
       return;
     }
 
@@ -185,6 +190,18 @@ export function ProductCardEnhanced({
               onClick={toggleFavorite}
             >
               <Heart className={`h-4 w-4 ${isFavorite ? "fill-accent text-accent" : ""}`} />
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              className="rounded-full bg-background/80 backdrop-blur-sm hover:bg-background opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 delay-75"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addToCart({ id, title, price, sale_price, image_url });
+              }}
+            >
+              <ShoppingBag className="h-4 w-4" />
             </Button>
             <Button
               variant="secondary"
