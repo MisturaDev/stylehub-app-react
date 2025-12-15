@@ -3,13 +3,20 @@ import { Navbar } from "@/components/Navbar";
 import { ProductCard } from "@/components/ProductCard";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export default function Wishlist() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const [favorites, setFavorites] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate("/auth");
+    }
+  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (user) {
@@ -34,22 +41,18 @@ export default function Wishlist() {
     setLoading(false);
   };
 
-  if (!user) {
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="container mx-auto px-4 py-12 text-center">
-          <h1 className="text-3xl font-serif font-bold mb-4">My Wishlist</h1>
-          <p className="text-muted-foreground mb-6">
-            Please sign in to view your wishlist
-          </p>
-          <Button asChild>
-            <Link to="/auth">Sign In</Link>
-          </Button>
+          <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
   }
+
+  if (!user) return null;
 
   return (
     <div className="min-h-screen bg-background">
