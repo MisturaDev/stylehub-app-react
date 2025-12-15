@@ -40,7 +40,7 @@ export default function SellerDashboard() {
   const [isSellerEnabled, setIsSellerEnabled] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
-  
+
   // Form states
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -199,7 +199,7 @@ export default function SellerDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-serif font-bold">Seller Dashboard</h1>

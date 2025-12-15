@@ -12,7 +12,7 @@ export interface CartItem {
 
 interface CartContextType {
     items: CartItem[];
-    addToCart: (product: any) => void;
+    addToCart: (product: { id: string; title: string; price: number; sale_price?: number | null; image_url: string }) => void;
     removeFromCart: (productId: string) => void;
     updateQuantity: (productId: string, quantity: number) => void;
     clearCart: () => void;
@@ -42,7 +42,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         localStorage.setItem("cart", JSON.stringify(items));
     }, [items]);
 
-    const addToCart = (product: any) => {
+    const addToCart = (product: { id: string; title: string; price: number; sale_price?: number | null; image_url: string }) => {
         setItems((prev) => {
             const existing = prev.find((item) => item.id === product.id);
             if (existing) {

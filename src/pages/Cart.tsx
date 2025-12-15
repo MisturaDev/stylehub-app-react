@@ -7,11 +7,15 @@ import { Minus, Plus, Trash2, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
+import { CheckoutModal } from "@/components/CheckoutModal";
+import { useState } from "react";
+
 export default function Cart() {
     const { items, removeFromCart, updateQuantity, total, clearCart } = useCart();
+    const [checkoutOpen, setCheckoutOpen] = useState(false);
 
     const handleCheckout = () => {
-        toast.success("Proceeding to checkout... (Demo only)");
+        setCheckoutOpen(true);
     };
 
     return (
@@ -106,6 +110,11 @@ export default function Cart() {
                     </div>
                 )}
             </div>
+            <CheckoutModal
+                open={checkoutOpen}
+                onOpenChange={setCheckoutOpen}
+                total={total}
+            />
         </div>
     );
 }

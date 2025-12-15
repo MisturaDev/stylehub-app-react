@@ -54,10 +54,10 @@ export default function Wishlist() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-4xl font-serif font-bold mb-8">My Wishlist</h1>
-        
+
         {loading ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground">Loading...</p>
