@@ -28,13 +28,13 @@ A modern, responsive e-commerce marketplace built with React, Vite and Supabase.
 
 ##  App Preview
 
-| Home | Product | Dashboard |
-|------|--------|-----------|
+| Home | Product | Wishlist |
+|------|---------|----------|
 | ![](./public/screenshots/home.png) | ![](./public/screenshots/product-detail.png) | ![](./public/screenshots/wishlist.png) |
 
-| Wishlist | Cart | 
-|---------|------|----------|
-| ![](./public/screenshots/cart.png) | ![](./public/screenshots/cart.png) 
+| Cart | Seller Dashboard |  |
+|------|------------------|--|
+| ![](./public/screenshots/cart.png) | ![](./public/screenshots/seller-dashboard.png) |  |
 
 
 
