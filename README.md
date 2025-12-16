@@ -25,6 +25,19 @@ A modern, responsive e-commerce marketplace built with React, Vite and Supabase.
 - **Backend/Database**: Supabase
 - **State Management**: React Query, Context API
 
+
+##  App Preview
+
+| Home | Product | Wishlist |
+|------|---------|----------|
+| ![](./public/screenshots/home.png) | ![](./public/screenshots/product-detail.png) | ![](./public/screenshots/wishlist.png) |
+
+| Cart | Seller Dashboard |  |
+|------|------------------|--|
+| ![](./public/screenshots/cart.png) | ![](./public/screenshots/seller-dashboard.png) |  |
+
+
+
 ## Installation
 
 1. **Clone the repository**
