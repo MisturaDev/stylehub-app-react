@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
+import { useWishlist } from "@/contexts/WishlistContext";
 import { toast } from "sonner";
 
 interface ProductCardProps {
@@ -37,7 +38,7 @@ export function ProductCard({
   const { user } = useAuth();
   const { addToCart } = useCart();
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(false);
+
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [sellerName, setSellerName] = useState<string>("");
@@ -49,8 +50,8 @@ export function ProductCard({
 
   useEffect(() => {
     if (user) {
-      checkFavoriteStatus();
-      checkLikeStatus();
+      // checkFavoriteStatus(); // Removed in favor of Context
+      // checkLikeStatus(); // Removed, likes still local for now or need refactoring
     }
     getLikeCount();
     if (seller_id) {
@@ -71,36 +72,9 @@ export function ProductCard({
     }
   };
 
-  const checkFavoriteStatus = async () => {
-    const { data } = await supabase
-      .from("favorites")
-      .select()
-      .eq("user_id", user?.id)
-      .eq("product_id", id)
-      .single();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
-    setIsFavorite(!!data);
-  };
-
-  const checkLikeStatus = async () => {
-    const { data } = await supabase
-      .from("likes")
-      .select()
-      .eq("user_id", user?.id)
-      .eq("product_id", id)
-      .single();
-
-    setIsLiked(!!data);
-  };
-
-  const getLikeCount = async () => {
-    const { count } = await supabase
-      .from("likes")
-      .select("*", { count: "exact", head: true })
-      .eq("product_id", id);
-
-    setLikeCount(count || 0);
-  };
+  const isFavorite = isInWishlist(id);
 
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -112,19 +86,9 @@ export function ProductCard({
     }
 
     if (isFavorite) {
-      await supabase
-        .from("favorites")
-        .delete()
-        .eq("user_id", user.id)
-        .eq("product_id", id);
-      setIsFavorite(false);
-      toast.success("Removed from wishlist");
+      await removeFromWishlist(id);
     } else {
-      await supabase
-        .from("favorites")
-        .insert({ user_id: user.id, product_id: id });
-      setIsFavorite(true);
-      toast.success("Added to wishlist");
+      await addToWishlist({ id, title, price, image_url });
     }
   };
 

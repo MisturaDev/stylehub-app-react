@@ -12,6 +12,7 @@ import Cart from "./pages/Cart";
 
 import NotFound from "./pages/NotFound";
 import { CartProvider } from "./contexts/CartContext";
+import { WishlistProvider } from "./contexts/WishlistContext";
 import DashboardLayout from "./layouts/DashboardLayout";
 import SellerOverview from "./pages/seller/SellerOverview";
 import SellerProducts from "./pages/seller/SellerProducts";
@@ -27,24 +28,26 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <CartProvider>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/seller" element={<DashboardLayout />}>
-                <Route index element={<Navigate to="overview" replace />} />
-                <Route path="overview" element={<SellerOverview />} />
-                <Route path="products" element={<SellerProducts />} />
-                <Route path="orders" element={<SellerOrders />} />
-                <Route path="settings" element={<SellerSettings />} />
-              </Route>
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </CartProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/seller" element={<DashboardLayout />}>
+                  <Route index element={<Navigate to="overview" replace />} />
+                  <Route path="overview" element={<SellerOverview />} />
+                  <Route path="products" element={<SellerProducts />} />
+                  <Route path="orders" element={<SellerOrders />} />
+                  <Route path="settings" element={<SellerSettings />} />
+                </Route>
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </CartProvider>
+          </WishlistProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
