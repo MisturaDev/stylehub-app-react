@@ -30,7 +30,7 @@ A modern, responsive e-commerce marketplace built with React, Vite and Supabase.
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd outfit-oracle-dash
+   cd stylehub-app-react
    ```
 
 2. **Install dependencies**
