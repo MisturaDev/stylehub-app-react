@@ -50,7 +50,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
             .eq('user_id', user.id);
 
         if (error) {
-            console.error('Error fetching favorites:', error);
+            console.error('Error fetching wishlist:', error);
             return;
         }
 
@@ -71,8 +71,9 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
-        // Optimistic update
-        if (isInWishlist(product.id)) return;
+        if (isInWishlist(product.id)) {
+            return;
+        }
 
         const { error } = await supabase.from('wishlist_items').insert({
             user_id: user.id,
@@ -80,11 +81,12 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         });
 
         if (error) {
+            console.error('Error adding to wishlist:', error);
             toast.error("Failed to add to wishlist");
             return;
         }
 
-        setItems(prev => [...prev, product]);
+        await fetchWishlist();
         toast.success("Added to wishlist");
     };
 
@@ -98,11 +100,12 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
             .eq('product_id', productId);
 
         if (error) {
+            console.error('Error removing from wishlist:', error);
             toast.error("Failed to remove from wishlist");
             return;
         }
 
-        setItems(prev => prev.filter(item => item.id !== productId));
+        await fetchWishlist();
         toast.success("Removed from wishlist");
     };
 

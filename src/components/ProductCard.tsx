@@ -53,7 +53,7 @@ export function ProductCard({
       // checkFavoriteStatus(); // Removed in favor of Context
       // checkLikeStatus(); // Removed, likes still local for now or need refactoring
     }
-    getLikeCount();
+    // getLikeCount(); // Removed as it does not exist
     if (seller_id) {
       fetchSellerInfo();
     }
@@ -102,7 +102,7 @@ export function ProductCard({
 
     if (isLiked) {
       await supabase
-        .from("likes")
+        .from("wishlist_items")
         .delete()
         .eq("user_id", user.id)
         .eq("product_id", id);
@@ -110,7 +110,7 @@ export function ProductCard({
       setLikeCount(prev => prev - 1);
     } else {
       await supabase
-        .from("likes")
+        .from("wishlist_items")
         .insert({ user_id: user.id, product_id: id });
       setIsLiked(true);
       setLikeCount(prev => prev + 1);

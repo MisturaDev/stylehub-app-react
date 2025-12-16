@@ -24,7 +24,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import heroImage from "@/assets/hero-banner.jpg";
 
-const CATEGORIES = ["All", "Shirts", "Dresses", "Shoes", "Accessories"];
+const CATEGORIES = ["All", "Shirts", "Tops", "Dresses", "Skirts", "Bottoms", "Shoes", "Accessories", "Jewelry"];
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest First" },
   { value: "price-low", label: "Price: Low to High" },
@@ -106,7 +106,7 @@ export default function Home() {
   };
 
   const fetchLikeCounts = async () => {
-    const { data } = await supabase.from("likes").select("product_id");
+    const { data } = await supabase.from("wishlist_items").select("product_id");
 
     if (data) {
       const counts: Record<string, number> = {};
@@ -144,7 +144,7 @@ export default function Home() {
         product.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.category.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory =
-        selectedCategory === "All" || product.category === selectedCategory.toLowerCase();
+        selectedCategory === "All" || product.category.toLowerCase() === selectedCategory.toLowerCase();
       const matchesBrand = selectedBrand === "All" || product.brand === selectedBrand;
       const matchesPrice = productPrice >= priceRange[0] && productPrice <= priceRange[1];
 

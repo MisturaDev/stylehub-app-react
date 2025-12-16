@@ -14,37 +14,84 @@ export default function SellerSettings() {
     const [storeDescription, setStoreDescription] = useState("");
     const [supportEmail, setSupportEmail] = useState("");
     const [loading, setLoading] = useState(false);
+    const [isFetching, setIsFetching] = useState(true);
 
     useEffect(() => {
         if (user) {
-            // Mock fetching existing settings or fetch from profiles if fields existed
-            // For now we just load what we have or defaults
-            setSupportEmail(user.email || "");
+            fetchProfile();
         }
     }, [user]);
 
+    const fetchProfile = async () => {
+        setIsFetching(true);
+        try {
+            if (!user) return;
+
+            const { data, error } = await supabase
+                .from('profiles')
+                .select('store_name, store_description, support_email')
+                .eq('id', user.id)
+                .single();
+
+            if (error) {
+                console.error('Error fetching profile:', error);
+                // If error is PGRST116 (0 rows), we just stick to defaults
+                return;
+            }
+
+            if (data) {
+                setStoreName(data.store_name || "");
+                setStoreDescription(data.store_description || "");
+                setSupportEmail(data.support_email || user.email || "");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setIsFetching(false);
+        }
+    };
+
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
 
-        // Simulate API call since we don't have these fields in DB yet
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // We can at least update the full_name as store name if we wanted to
-        if (user) {
-            const { error } = await supabase.from('profiles').update({
-                full_name: storeName
-            }).eq('id', user.id);
-
-            if (!error) {
-                toast.success("Settings saved successfully!");
-            } else {
-                toast.error("Failed to save settings");
-            }
+        if (!storeName.trim()) {
+            toast.error("Store name is required");
+            return;
         }
 
-        setLoading(false);
+        if (!user) return;
+
+        setLoading(true);
+
+        try {
+            const updates = {
+                id: user.id,
+                store_name: storeName,
+                store_description: storeDescription,
+                support_email: supportEmail,
+                updated_at: new Date().toISOString(),
+            };
+
+            const { error } = await supabase
+                .from('profiles')
+                .upsert(updates);
+
+            if (error) {
+                throw error;
+            }
+
+            toast.success("Settings saved successfully!");
+        } catch (error: any) {
+            console.error('Error saving settings:', error);
+            toast.error("Failed to save settings: " + (error.message || "Unknown error"));
+        } finally {
+            setLoading(false);
+        }
     };
+
+    if (isFetching) {
+        return <div className="p-8 text-center">Loading settings...</div>;
+    }
 
     return (
         <div className="space-y-6 fade-in max-w-2xl">
@@ -60,12 +107,13 @@ export default function SellerSettings() {
                 <CardContent>
                     <form onSubmit={handleSave} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="storeName">Store Name</Label>
+                            <Label htmlFor="storeName">Store Name <span className="text-red-500">*</span></Label>
                             <Input
                                 id="storeName"
                                 value={storeName}
                                 onChange={(e) => setStoreName(e.target.value)}
                                 placeholder="My Awesome Styles"
+                                required
                             />
                         </div>
 
@@ -87,6 +135,7 @@ export default function SellerSettings() {
                                 type="email"
                                 value={supportEmail}
                                 onChange={(e) => setSupportEmail(e.target.value)}
+                                placeholder="support@example.com"
                             />
                         </div>
 

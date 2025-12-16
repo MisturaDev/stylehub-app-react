@@ -227,6 +227,9 @@ export type Database = {
           full_name: string | null
           id: string
           is_seller: boolean | null
+          store_name: string | null
+          store_description: string | null
+          support_email: string | null
           updated_at: string | null
         }
         Insert: {
@@ -235,6 +238,9 @@ export type Database = {
           full_name?: string | null
           id: string
           is_seller?: boolean | null
+          store_name?: string | null
+          store_description?: string | null
+          support_email?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -243,6 +249,9 @@ export type Database = {
           full_name?: string | null
           id?: string
           is_seller?: boolean | null
+          store_name?: string | null
+          store_description?: string | null
+          support_email?: string | null
           updated_at?: string | null
         }
         Relationships: []

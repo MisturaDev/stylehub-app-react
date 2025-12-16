@@ -1,92 +1,27 @@
--- Seed Data for Products Table
+-- Clean Seed Data: 20 Products Only
+-- Ensure to TRUNCATE your products table first to avoid duplicates
+
+TRUNCATE TABLE public.products RESTART IDENTITY CASCADE;
 
 insert into public.products (title, description, price, sale_price, image_url, category, brand, is_featured, seller_id)
 values
-  (
-    'Classic White Linen Shirt',
-    'A breathable, lightweight linen shirt perfect for summer days. Features a relaxed fit and mother-of-pearl buttons.',
-    89.00,
-    null,
-    'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=800',
-    'Shirts',
-    'Uniqlo',
-    true,
-    (SELECT id FROM auth.users LIMIT 1)
-  ),
-  (
-    'Floral Summer Midi Dress',
-    'Elegant floral print midi dress with a cinched waist and flowing skirt. Ideal for garden parties or brunch.',
-    120.00,
-    95.00,
-    'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&q=80&w=800',
-    'Dresses',
-    'Zara',
-    true,
-    (SELECT id FROM auth.users LIMIT 1)
-  ),
-  (
-    'Leather Chelsea Boots',
-    'Handcrafted leather Chelsea boots with durable rubber soles. Timeless style that pairs well with jeans or trousers.',
-    180.00,
-    null,
-    'https://images.unsplash.com/photo-1638247025967-b4e38f787b76?auto=format&fit=crop&q=80&w=800',
-    'Shoes',
-    'Dr. Martens',
-    false,
-    (SELECT id FROM auth.users LIMIT 1)
-  ),
-  (
-    'Silk Scarf - Midnight Blue',
-    'Luxurious 100% silk scarf in a deep midnight blue shade. Adds a touch of sophistication to any outfit.',
-    45.00,
-    null,
-    'https://images.unsplash.com/photo-1584030373081-f37b7bb4fa3e?auto=format&fit=crop&q=80&w=800',
-    'Accessories',
-    'Hermes',
-    false,
-    (SELECT id FROM auth.users LIMIT 1)
-  ),
-  (
-    'Slim Fit Navy Blazer',
-    'Tailored navy blazer made from premium wool blend. A versatile essential for the modern professional.',
-    250.00,
-    199.99,
-    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800',
-    'Shirts',
-    'Ralph Lauren',
-    true,
-    (SELECT id FROM auth.users LIMIT 1)
-  ),
-  (
-    'Running Sneakers',
-    'High-performance running shoes with cushioned soles for maximum comfort during your workouts.',
-    110.00,
-    null,
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800',
-    'Shoes',
-    'Nike',
-    true,
-    (SELECT id FROM auth.users LIMIT 1)
-  ),
-  (
-    'Denim Jacket',
-    'Classic denim jacket with a vintage wash. Features button-flap chest pockets and side welt pockets.',
-    75.00,
-    null,
-    'https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=80&w=800',
-    'Shirts',
-    'Levi''s',
-    false,
-    (SELECT id FROM auth.users LIMIT 1)
-  ),
-  (
-    'Gold Plated Necklace',
-    'Minimalist gold plated chain necklace. Tarnish-resistant and perfect for layering.',
-    35.00,
-    29.00,
-    'https://images.unsplash.com/photo-1599643478518-17488fbbcd75?auto=format&fit=crop&q=80&w=800',
-    'Accessories',
-    'Mejuri',
-    false,
-    (SELECT id FROM auth.users LIMIT 1)
-  );
+  ('Classic White Linen Shirt', 'A breathable, lightweight linen shirt perfect for summer days. Features a relaxed fit and mother-of-pearl buttons.', 89.00, null, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&q=80&w=800', 'Shirts', 'Uniqlo', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Floral Summer Midi Dress', 'Elegant floral print midi dress with a cinched waist and flowing skirt. Ideal for garden parties or brunch.', 120.00, 95.00, 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?auto=format&fit=crop&q=80&w=800', 'Dresses', 'Zara', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Leather Chelsea Boots', 'Handcrafted leather Chelsea boots with durable rubber soles. Timeless style that pairs well with jeans or trousers.', 180.00, null, 'https://images.unsplash.com/photo-1638247025967-b4e38f787b76?auto=format&fit=crop&q=80&w=800', 'Shoes', 'Dr. Martens', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Silk Scarf - Midnight Blue', 'Luxurious 100% silk scarf in a deep midnight blue shade. Adds a touch of sophistication to any outfit.', 45.00, null, 'https://ng.jumia.is/unsafe/fit-in/680x680/filters:fill(white)/product/39/3850914/1.jpg?5509', 'Accessories', 'Hermès', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Slim Fit Navy Blazer', 'Tailored navy blazer made from premium wool blend. A versatile essential for the modern professional.', 250.00, 199.99, 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=800', 'Shirts', 'Ralph Lauren', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Running Sneakers', 'High-performance running shoes with cushioned soles for maximum comfort during your workouts.', 110.00, null, 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800', 'Shoes', 'Nike', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Denim Jacket', 'Classic denim jacket with a vintage wash. Features button-flap chest pockets and side welt pockets.', 75.00, null, 'https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&q=80&w=800', 'Shirts', 'Levi''s', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Gold Plated Necklace', 'Minimalist gold plated chain necklace. Tarnish-resistant and perfect for layering.', 35.00, 29.00, 'https://img-1.kwcdn.com/product/fancy/a315e05a-c3db-49b1-871d-af66ec94a82f.jpg?imageView2/2/w/800/q/70/format/avif', 'Jewelry', 'Mejuri', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Evening Satin Slip Dress', 'A stunning champagne-colored satin slip dress. Perfect for evening events and cocktail parties.', 150.00, 120.00, 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=800', 'Dresses', 'Reformation', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Boho Maxi Dress', 'Flowy bohemian style maxi dress with intricate embroidery. Comfortable and stylish for casual wear.', 85.00, null, 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&q=80&w=800', 'Dresses', 'Free People', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Silk Chiffon Blouse', 'Sheer silk chiffon blouse with billowy sleeves and a tie-neck detail. Elegant and feminine.', 95.00, null, 'https://assets.bongenie.ch/media105214/stella-mccartney-a313140-rose-1564213-h7poob4d26.jpg', 'Tops', 'Chloé', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Cotton Poplin Shirt', 'Crisp cotton poplin shirt in striped blue. A wardrobe staple that transition perfectly from work to weekend.', 70.00, 55.00, 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&q=80&w=800', 'Shirts', 'Everlane', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Pleated Midi Skirt', 'High-waisted pleated midi skirt in metallic sheen. Adds movement and texture to your outfit.', 78.00, null, 'https://us.princesspolly.com/cdn/shop/files/0-modelinfo-florencia-us2_340483b2-277b-4df5-bb95-140fe385fe1d.jpg?v=1740026070&width=1800', 'Skirts', 'H&M', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('High-Waist Wide Leg Trousers', 'Sophisticated high-waist trousers with a wide leg cut. Made from premium Italian wool.', 145.00, null, 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&q=80&w=800', 'Bottoms', 'Theory', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Leather Crossbody Bag', 'Compact leather crossbody bag with gold hardware. Perfect for carrying essentials hands-free.', 135.00, 110.00, 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&q=80&w=800', 'Accessories', 'Coach', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Canvas Tote Bag', 'Durable canvas tote bag with leather straps. Roomy enough for laptop and daily essentials.', 45.00, null, 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800', 'Accessories', 'Madewell', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Strappy Heeled Sandals', 'Elegant strappy sandals with a comfortable block heel. Perfect for weddings and special occasions.', 89.00, null, 'https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&q=80&w=800', 'Shoes', 'Steve Madden', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Leather Loafers', 'Classic leather loafers with horsebit detail. Adds a preppy touch to any ensemble.', 125.00, null, 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=800', 'Shoes', 'Gucci', true, (SELECT id FROM auth.users LIMIT 1)),
+  ('Oversized Sunglasses', 'Chic oversized sunglasses with UV protection. A must-have accessory for sunny days.', 180.00, 150.00, 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=800', 'Accessories', 'Prada', false, (SELECT id FROM auth.users LIMIT 1)),
+  ('Pearl Earrings', 'Timeless freshwater pearl earrings with sterling silver posts. Adds classic elegance to any look.', 60.00, null, 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=800', 'Jewelry', 'Tiffany & Co.', false, (SELECT id FROM auth.users LIMIT 1));

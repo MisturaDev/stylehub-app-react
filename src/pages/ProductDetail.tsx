@@ -67,7 +67,7 @@ export default function ProductDetail() {
       setSeller(sellerData);
 
       const { count } = await supabase
-        .from("likes")
+        .from("wishlist_items")
         .select("*", { count: "exact", head: true })
         .eq("product_id", id);
 
@@ -94,7 +94,7 @@ export default function ProductDetail() {
 
   const checkFavoriteStatus = async () => {
     const { data } = await supabase
-      .from("favorites")
+      .from("wishlist_items")
       .select()
       .eq("user_id", user?.id)
       .eq("product_id", id)
@@ -105,7 +105,7 @@ export default function ProductDetail() {
 
   const checkLikeStatus = async () => {
     const { data } = await supabase
-      .from("likes")
+      .from("wishlist_items")
       .select()
       .eq("user_id", user?.id)
       .eq("product_id", id)
@@ -123,7 +123,7 @@ export default function ProductDetail() {
 
     if (isFavorite) {
       await supabase
-        .from("favorites")
+        .from("wishlist_items")
         .delete()
         .eq("user_id", user.id)
         .eq("product_id", id);
@@ -131,7 +131,7 @@ export default function ProductDetail() {
       toast.success("Removed from wishlist");
     } else {
       await supabase
-        .from("favorites")
+        .from("wishlist_items")
         .insert({ user_id: user.id, product_id: id });
       setIsFavorite(true);
       toast.success("Added to wishlist");
@@ -146,7 +146,7 @@ export default function ProductDetail() {
 
     if (isLiked) {
       await supabase
-        .from("likes")
+        .from("wishlist_items")
         .delete()
         .eq("user_id", user.id)
         .eq("product_id", id);
@@ -154,7 +154,7 @@ export default function ProductDetail() {
       setLikeCount(prev => prev - 1);
     } else {
       await supabase
-        .from("likes")
+        .from("wishlist_items")
         .insert({ user_id: user.id, product_id: id });
       setIsLiked(true);
       setLikeCount(prev => prev + 1);

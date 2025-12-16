@@ -46,7 +46,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
 
     // Get like count
     const { count } = await supabase
-      .from("likes")
+      .from("wishlist_items")
       .select("*", { count: "exact", head: true })
       .eq("product_id", product.id);
     setLikeCount(count || 0);
@@ -64,7 +64,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
     if (user) {
       // Check favorite status
       const { data: favData } = await supabase
-        .from("favorites")
+        .from("wishlist_items")
         .select()
         .eq("user_id", user.id)
         .eq("product_id", product.id)
@@ -73,7 +73,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
 
       // Check like status
       const { data: likeData } = await supabase
-        .from("likes")
+        .from("wishlist_items")
         .select()
         .eq("user_id", user.id)
         .eq("product_id", product.id)
@@ -90,11 +90,11 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
     if (!product) return;
 
     if (isFavorite) {
-      await supabase.from("favorites").delete().eq("user_id", user.id).eq("product_id", product.id);
+      await supabase.from("wishlist_items").delete().eq("user_id", user.id).eq("product_id", product.id);
       setIsFavorite(false);
       toast.success("Removed from wishlist");
     } else {
-      await supabase.from("favorites").insert({ user_id: user.id, product_id: product.id });
+      await supabase.from("wishlist_items").insert({ user_id: user.id, product_id: product.id });
       setIsFavorite(true);
       toast.success("Added to wishlist");
     }
@@ -108,11 +108,11 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
     if (!product) return;
 
     if (isLiked) {
-      await supabase.from("likes").delete().eq("user_id", user.id).eq("product_id", product.id);
+      await supabase.from("wishlist_items").delete().eq("user_id", user.id).eq("product_id", product.id);
       setIsLiked(false);
       setLikeCount((prev) => prev - 1);
     } else {
-      await supabase.from("likes").insert({ user_id: user.id, product_id: product.id });
+      await supabase.from("wishlist_items").insert({ user_id: user.id, product_id: product.id });
       setIsLiked(true);
       setLikeCount((prev) => prev + 1);
     }

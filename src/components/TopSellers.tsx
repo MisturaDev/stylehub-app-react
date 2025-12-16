@@ -24,7 +24,7 @@ export function TopSellers() {
   const fetchTopSellers = async () => {
     // Fetch products with most likes as "top sellers"
     const { data: likesData } = await supabase
-      .from("likes")
+      .from("wishlist_items")
       .select("product_id");
 
     if (likesData) {

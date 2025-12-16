@@ -42,7 +42,7 @@ export function TrendingProducts({ onProductView }: TrendingProductsProps) {
 
     // Get like counts for all products
     const { data: likes } = await supabase
-      .from("likes")
+      .from("wishlist_items")
       .select("product_id");
 
     if (!likes) {
