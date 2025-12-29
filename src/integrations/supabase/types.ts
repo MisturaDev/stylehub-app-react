@@ -175,6 +175,8 @@ export type Database = {
           status: string
           customer_name: string
           customer_email: string
+          customer_city: string
+          customer_zip: string
           shipping_address: string
           created_at: string
         }
@@ -185,6 +187,8 @@ export type Database = {
           status?: string
           customer_name: string
           customer_email: string
+          customer_city: string
+          customer_zip: string
           shipping_address: string
           created_at?: string
         }
@@ -195,6 +199,8 @@ export type Database = {
           status?: string
           customer_name?: string
           customer_email?: string
+          customer_city?: string
+          customer_zip?: string
           shipping_address?: string
           created_at?: string
         }

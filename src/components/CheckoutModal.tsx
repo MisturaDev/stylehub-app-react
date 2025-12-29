@@ -26,6 +26,21 @@ export function CheckoutModal({ open, onOpenChange, total }: CheckoutModalProps)
     const { user } = useAuth();
     const [loading, setLoading] = useState(false);
 
+    // Form State
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        address: "",
+        city: "",
+        zip: "",
+        card: ""
+    });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -34,18 +49,27 @@ export function CheckoutModal({ open, onOpenChange, total }: CheckoutModalProps)
             return;
         }
 
-        setLoading(true);
+        if (!formData.city) {
+            toast.error("City is required");
+            return;
+        }
 
-        const form = e.target as HTMLFormElement;
-        const formData = new FormData(form);
+        if (!formData.zip) {
+            toast.error("Zip code is required");
+            return;
+        }
+
+        setLoading(true);
 
         const orderData = {
             user_id: user.id,
             total,
             status: 'Pending',
-            customer_name: formData.get('name') as string,
-            customer_email: formData.get('email') as string,
-            shipping_address: `${formData.get('address')}, ${formData.get('city')}, ${formData.get('zip')}`,
+            customer_name: formData.name,
+            customer_email: formData.email,
+            customer_city: formData.city,
+            customer_zip: formData.zip,
+            shipping_address: `${formData.address}, ${formData.city}, ${formData.zip}`,
         };
 
         try {
@@ -74,6 +98,14 @@ export function CheckoutModal({ open, onOpenChange, total }: CheckoutModalProps)
 
             toast.success("Order placed successfully! Check your email for confirmation.");
             clearCart();
+            setFormData({
+                name: "",
+                email: "",
+                address: "",
+                city: "",
+                zip: "",
+                card: ""
+            });
             onOpenChange(false);
         } catch (error: any) {
             console.error('Checkout error:', error);
@@ -95,29 +127,69 @@ export function CheckoutModal({ open, onOpenChange, total }: CheckoutModalProps)
                 <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                     <div className="grid gap-2">
                         <Label htmlFor="name">Full Name</Label>
-                        <Input id="name" name="name" required placeholder="John Doe" />
+                        <Input
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                            placeholder="John Doe"
+                        />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" name="email" type="email" required placeholder="john@example.com" />
+                        <Input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            required
+                            placeholder="john@example.com"
+                        />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="address">Shipping Address</Label>
-                        <Input id="address" name="address" required placeholder="123 Fashion St" />
+                        <Input
+                            id="address"
+                            name="address"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            required
+                            placeholder="123 Fashion St"
+                        />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="grid gap-2">
                             <Label htmlFor="city">City</Label>
-                            <Input id="city" name="city" required />
+                            <Input
+                                id="city"
+                                name="city"
+                                value={formData.city}
+                                onChange={handleInputChange}
+                                required
+                            />
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="zip">Zip Code</Label>
-                            <Input id="zip" name="zip" required />
+                            <Input
+                                id="zip"
+                                name="zip"
+                                value={formData.zip}
+                                onChange={handleInputChange}
+                                required
+                            />
                         </div>
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="card">Card Number (Demo)</Label>
-                        <Input id="card" name="card" placeholder="0000 0000 0000 0000" />
+                        <Input
+                            id="card"
+                            name="card"
+                            value={formData.card}
+                            onChange={handleInputChange}
+                            placeholder="0000 0000 0000 0000"
+                        />
                     </div>
                     <Button type="submit" disabled={loading} className="w-full">
                         {loading ? "Processing..." : `Pay $${total.toFixed(2)}`}
