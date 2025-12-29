@@ -167,6 +167,86 @@ export type Database = {
           },
         ]
       }
+      orders: {
+        Row: {
+          id: string
+          user_id: string
+          total: number
+          status: string
+          customer_name: string
+          customer_email: string
+          shipping_address: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          total: number
+          status?: string
+          customer_name: string
+          customer_email: string
+          shipping_address: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          total?: number
+          status?: string
+          customer_name?: string
+          customer_email?: string
+          shipping_address?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      order_items: {
+        Row: {
+          id: string
+          order_id: string
+          product_id: string
+          quantity: number
+          price: number
+        }
+        Insert: {
+          id?: string
+          order_id: string
+          product_id: string
+          quantity: number
+          price: number
+        }
+        Update: {
+          id?: string
+          order_id?: string
+          product_id?: string
+          quantity?: number
+          price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       products: {
         Row: {
           brand: string | null
