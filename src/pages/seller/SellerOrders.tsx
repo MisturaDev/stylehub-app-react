@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -126,9 +127,11 @@ export default function SellerOrders() {
                                         {order.order_items && order.order_items[0] ? order.order_items[0].count : 0}
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Button variant="ghost" size="sm">
-                                            <Eye className="mr-2 h-4 w-4" />
-                                            View
+                                        <Button variant="ghost" size="sm" asChild>
+                                            <Link to={`/seller/orders/${order.id}`}>
+                                                <Eye className="mr-2 h-4 w-4" />
+                                                View
+                                            </Link>
                                         </Button>
                                     </TableCell>
                                 </TableRow>

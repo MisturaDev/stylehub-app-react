@@ -17,6 +17,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import SellerOverview from "./pages/seller/SellerOverview";
 import SellerProducts from "./pages/seller/SellerProducts";
 import SellerOrders from "./pages/seller/SellerOrders";
+import SellerOrderDetails from "./pages/seller/SellerOrderDetails";
 import SellerSettings from "./pages/seller/SellerSettings";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
                   <Route path="overview" element={<SellerOverview />} />
                   <Route path="products" element={<SellerProducts />} />
                   <Route path="orders" element={<SellerOrders />} />
+                  <Route path="orders/:orderId" element={<SellerOrderDetails />} />
                   <Route path="settings" element={<SellerSettings />} />
                 </Route>
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
