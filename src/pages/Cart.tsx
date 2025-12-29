@@ -4,17 +4,26 @@ import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Minus, Plus, Trash2, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { useState } from "react";
 
 export default function Cart() {
     const { items, removeFromCart, updateQuantity, total, clearCart } = useCart();
+    const { user } = useAuth();
+    const navigate = useNavigate();
     const [checkoutOpen, setCheckoutOpen] = useState(false);
 
     const handleCheckout = () => {
+        if (!user) {
+            toast.error("Please log in to proceed to checkout");
+            navigate("/auth");
+            return;
+        }
         setCheckoutOpen(true);
     };
 

@@ -31,7 +31,48 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     // Load cart from Supabase or local storage
     useEffect(() => {
         if (user) {
-            fetchCart();
+            const syncCart = async () => {
+                const savedCart = localStorage.getItem("cart");
+                if (savedCart) {
+                    try {
+                        const localItems: CartItem[] = JSON.parse(savedCart);
+                        if (localItems.length > 0) {
+                            // Sync each item to Supabase
+                            for (const item of localItems) {
+                                const { data: existingItem } = await supabase
+                                    .from('cart_items')
+                                    .select('quantity')
+                                    .eq('user_id', user.id)
+                                    .eq('product_id', item.id)
+                                    .single();
+
+                                if (existingItem) {
+                                    await supabase
+                                        .from('cart_items')
+                                        .update({ quantity: existingItem.quantity + item.quantity })
+                                        .eq('user_id', user.id)
+                                        .eq('product_id', item.id);
+                                } else {
+                                    await supabase
+                                        .from('cart_items')
+                                        .insert({
+                                            user_id: user.id,
+                                            product_id: item.id,
+                                            quantity: item.quantity
+                                        });
+                                }
+                            }
+                            // Clear local cart after syncing
+                            localStorage.removeItem("cart");
+                            toast.success("Cart moved to your account");
+                        }
+                    } catch (e) {
+                        console.error("Failed to parse cart from local storage", e);
+                    }
+                }
+                await fetchCart();
+            };
+            syncCart();
         } else {
             const savedCart = localStorage.getItem("cart");
             if (savedCart) {
@@ -40,6 +81,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                 } catch (e) {
                     console.error("Failed to parse cart from local storage", e);
                 }
+            } else {
+                setItems([]); // Clear items if no local cart
             }
         }
     }, [user]);
