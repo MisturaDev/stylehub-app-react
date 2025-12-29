@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
     LayoutDashboard,
     Package,
@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 export default function DashboardLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
     const { signOut } = useAuth();
 
     const navItems = [
@@ -62,11 +63,14 @@ export default function DashboardLayout() {
             >
                 <div className="h-full flex flex-col">
                     <div className="h-16 flex items-center px-4 gap-2 border-b">
-                        <Link to="/">
-                            <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-gray-100">
-                                <ArrowLeft className="h-4 w-4" />
-                            </Button>
-                        </Link>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 hover:bg-gray-100"
+                            onClick={() => navigate(-1)}
+                        >
+                            <ArrowLeft className="h-4 w-4" />
+                        </Button>
                         <Link to="/" className="text-xl font-serif font-bold">
                             StyleHub <span className="text-xs font-sans font-normal text-muted-foreground ml-1">Seller</span>
                         </Link>
@@ -118,11 +122,13 @@ export default function DashboardLayout() {
                         </Button>
                         <span className="font-semibold">Dashboard</span>
                     </div>
-                    <Link to="/">
-                        <Button variant="ghost" size="icon">
-                            <ArrowLeft className="h-5 w-5" />
-                        </Button>
-                    </Link>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => navigate(-1)}
+                    >
+                        <ArrowLeft className="h-5 w-5" />
+                    </Button>
                 </header>
 
                 {/* Page Content */}
