@@ -3,6 +3,8 @@
 
 A modern, responsive e-commerce marketplace built with React, Vite and Supabase. Features a complete shopping experience including product browsing, wishlist management, shopping cart and seller dashboard.
 
+---
+
 ## Features
 
 - **Authentication**: Secure Login and Signup with data validation and password visibility toggle.
@@ -17,14 +19,25 @@ A modern, responsive e-commerce marketplace built with React, Vite and Supabase.
 
 - **Responsive Design**: Beautiful UI built with Tailwind CSS and Shadcn UI.
 
+---
 
 ## Tech Stack
 
-- **Frontend**: React, TypeScript, Vite
-- **Styling**: Tailwind CSS, Shadcn UI
-- **Backend/Database**: Supabase
-- **State Management**: React Query, Context API
+- **Frontend:** React (v18), TypeScript, Vite, React Router DOM v6  
 
+- **Backend:** Supabase (`@supabase/supabase-js`)  
+
+- **UI & Styling:** Tailwind CSS, shadcn/ui (Radix UI), Lucide React, tailwindcss-animate, embla-carousel-react, sonner, next-themes  
+
+- **Charts & Data Visualization:** Recharts  
+
+- **State Management & Data Fetching:** React hooks, TanStack Query (React Query v5), React Hook Form + Zod  
+
+- **Utilities:** date-fns, clsx, tailwind-merge, class-variance-authority, input-otp  
+
+- **Deployment:** Vercel
+
+---
 
 ##  App Preview
 
@@ -37,6 +50,7 @@ A modern, responsive e-commerce marketplace built with React, Vite and Supabase.
 | ![](./public/screenshots/cart.png) | ![](./public/screenshots/seller-dashboard.png) |  |
 
 
+---
 
 ## Installation
 
@@ -63,6 +77,8 @@ A modern, responsive e-commerce marketplace built with React, Vite and Supabase.
    npm run dev
    ```
 
+---
+
 ## Verification
 
 To ensure the project is ready for deployment:
@@ -75,10 +91,13 @@ npm run lint
 npm run build
 ```
 
+---
+
 ## License
 
 This project is open source and available under the [MIT License](LICENSE)
 
+---
 
 ## Developer
 
