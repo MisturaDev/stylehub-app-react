@@ -25,7 +25,7 @@ A modern, responsive e-commerce marketplace built with React, Vite and Supabase.
 
 - **Frontend:** React (v18), TypeScript, Vite, React Router DOM v6  
 
-- **Backend:** Supabase (`@supabase/supabase-js`)  
+- **Backend:** Supabase
 
 - **UI & Styling:** Tailwind CSS, shadcn/ui (Radix UI), Lucide React, tailwindcss-animate, embla-carousel-react, sonner, next-themes  
 
