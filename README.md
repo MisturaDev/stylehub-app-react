@@ -82,21 +82,7 @@ StyleHub is a modern fashion e‑commerce web application built with React, Type
    ```bash
    npm run dev
    ```
-
----
-
-## Verification
-
-To ensure the project is ready for deployment:
-
-```bash
-# Run linting
-npm run lint
-
-# Build the project
-npm run build
-```
-
+   
 ---
 
 ## License
