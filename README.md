@@ -1,7 +1,13 @@
+![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-blue?logo=tailwind-css&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-202020?logo=supabase&logoColor=white)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-00c7b7?logo=vercel&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 # StyleHub - Fashion Marketplace & E-commerce
 
-A modern, responsive e-commerce marketplace built with React, Vite and Supabase. Features a complete shopping experience including product browsing, wishlist management, shopping cart and seller dashboard.
+StyleHub is a modern fashion e‑commerce web application built with React, TypeScript and Tailwind CSS. It allows users to browse, search and shop for fashion items with a responsive mobile-friendly design. The app also demonstrates backend integration with Supabase for authentication and data management and is deployed live on Vercel.
 
 ---
 
