@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export default function DashboardLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -71,8 +72,9 @@ export default function DashboardLayout() {
                         >
                             <ArrowLeft className="h-4 w-4" />
                         </Button>
-                        <Link to="/" className="text-xl font-serif font-bold">
-                            StyleHub <span className="text-xs font-sans font-normal text-muted-foreground ml-1">Seller</span>
+                        <Link to="/" className="flex items-center gap-2" aria-label="Style Hub home">
+                            <BrandLogo compact className="text-foreground" />
+                            <span className="text-xs font-sans font-normal text-muted-foreground">Seller</span>
                         </Link>
                     </div>
 

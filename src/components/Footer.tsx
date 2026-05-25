@@ -1,4 +1,5 @@
 import { Instagram, Twitter, Facebook, MapPin, Mail, Phone } from "lucide-react";
+import { BrandLogo } from "./BrandLogo";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand & Description */}
           <div className="space-y-4">
-            <h3 className="font-serif text-2xl font-bold">StyleHub</h3>
+            <BrandLogo textClassName="text-primary-foreground" />
             <p className="text-primary-foreground/70 text-sm leading-relaxed">
               Your premier destination for curated fashion. Discover the latest trends and timeless pieces.
             </p>

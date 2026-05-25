@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { BrandLogo } from "./BrandLogo";
 
 export function Navbar() {
   const { user, signOut } = useAuth();
@@ -37,8 +38,8 @@ export function Navbar() {
     <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-serif font-bold">
-            StyleHub
+          <Link to="/" aria-label="Style Hub home">
+            <BrandLogo className="text-foreground" />
           </Link>
 
           {/* Desktop Navigation */}
